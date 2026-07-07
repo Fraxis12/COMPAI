@@ -1,0 +1,3770 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Asistente Integral API",
+    "description": "API REST para una aplicaci\u00f3n m\u00f3vil de **asistente integral** del usuario.\n\nIncluye funcionalidades **acad\u00e9micas** (tareas, cursos, recordatorios de estudio) y de **nutrici\u00f3n y bienestar** (planes nutricionales, registro de comidas, rutinas de ejercicio, recordatorios de bienestar).\n\n\ud83d\udcda **Documentaci\u00f3n interactiva**: [/docs](/docs) (Swagger UI) o [/redoc](/redoc).\n\ud83d\udcdc **Esquema OpenAPI**: [/openapi.json](/openapi.json).",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Salud"
+        ],
+        "summary": "Health check",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usuarios/": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Crear un nuevo usuario",
+        "operationId": "crear_usuarios__post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Listar todos los usuarios",
+        "operationId": "listar_usuarios__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UsuarioRespuesta"
+                  },
+                  "title": "Response Listar Usuarios  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usuarios/{usuario_id}": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Obtener un usuario por ID",
+        "operationId": "obtener_usuarios__usuario_id__get",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Usuario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Actualizar un usuario",
+        "operationId": "actualizar_usuarios__usuario_id__put",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Usuario Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioActualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Eliminar un usuario",
+        "operationId": "eliminar_usuarios__usuario_id__delete",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Usuario Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cursos/": {
+      "post": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Crear un nuevo curso/materia",
+        "operationId": "crear_cursos__post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CursoRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Listar todos los cursos",
+        "operationId": "listar_cursos__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CursoRespuesta"
+                  },
+                  "title": "Response Listar Cursos  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cursos/{curso_id}": {
+      "get": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Obtener un curso con su lista de tareas",
+        "operationId": "obtener_cursos__curso_id__get",
+        "parameters": [
+          {
+            "name": "curso_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Curso Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CursoConTareas"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Actualizar un curso",
+        "operationId": "actualizar_cursos__curso_id__put",
+        "parameters": [
+          {
+            "name": "curso_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Curso Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoActualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CursoRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Eliminar un curso",
+        "operationId": "eliminar_cursos__curso_id__delete",
+        "parameters": [
+          {
+            "name": "curso_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Curso Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tareas/": {
+      "post": {
+        "tags": [
+          "Tareas"
+        ],
+        "summary": "Crear una nueva tarea",
+        "operationId": "crear_tareas__post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TareaCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TareaRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Tareas"
+        ],
+        "summary": "Listar todas las tareas",
+        "operationId": "listar_tareas__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TareaRespuesta"
+                  },
+                  "title": "Response Listar Tareas  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tareas/por-usuario/{usuario_id}": {
+      "get": {
+        "tags": [
+          "Tareas"
+        ],
+        "summary": "Listar tareas de un usuario",
+        "operationId": "por_usuario_tareas_por_usuario__usuario_id__get",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Usuario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TareaRespuesta"
+                  },
+                  "title": "Response Por Usuario Tareas Por Usuario  Usuario Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tareas/por-curso/{curso_id}": {
+      "get": {
+        "tags": [
+          "Tareas"
+        ],
+        "summary": "Listar tareas de un curso/materia",
+        "operationId": "por_curso_tareas_por_curso__curso_id__get",
+        "parameters": [
+          {
+            "name": "curso_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Curso Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TareaRespuesta"
+                  },
+                  "title": "Response Por Curso Tareas Por Curso  Curso Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tareas/por-fecha/": {
+      "get": {
+        "tags": [
+          "Tareas"
+        ],
+        "summary": "Listar tareas filtradas por rango de fecha l\u00edmite",
+        "operationId": "por_fecha_tareas_por_fecha__get",
+        "parameters": [
+          {
+            "name": "desde",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Fecha inicial (ISO 8601)",
+              "title": "Desde"
+            },
+            "description": "Fecha inicial (ISO 8601)"
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Fecha final (ISO 8601)",
+              "title": "Hasta"
+            },
+            "description": "Fecha final (ISO 8601)"
+          },
+          {
+            "name": "usuario_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Acota al usuario",
+              "title": "Usuario Id"
+            },
+            "description": "Acota al usuario"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TareaRespuesta"
+                  },
+                  "title": "Response Por Fecha Tareas Por Fecha  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tareas/{tarea_id}": {
+      "get": {
+        "tags": [
+          "Tareas"
+        ],
+        "summary": "Obtener una tarea por ID",
+        "operationId": "obtener_tareas__tarea_id__get",
+        "parameters": [
+          {
+            "name": "tarea_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Tarea Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TareaRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tareas"
+        ],
+        "summary": "Actualizar una tarea",
+        "operationId": "actualizar_tareas__tarea_id__put",
+        "parameters": [
+          {
+            "name": "tarea_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Tarea Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TareaActualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TareaRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tareas"
+        ],
+        "summary": "Eliminar una tarea",
+        "operationId": "eliminar_tareas__tarea_id__delete",
+        "parameters": [
+          {
+            "name": "tarea_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Tarea Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recordatorios/": {
+      "post": {
+        "tags": [
+          "Recordatorios"
+        ],
+        "summary": "Crear / registrar un recordatorio",
+        "operationId": "crear_recordatorios__post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordatorioCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordatorioRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Recordatorios"
+        ],
+        "summary": "Listar recordatorios (con filtros opcionales)",
+        "operationId": "listar_recordatorios__get",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Usuario Id"
+            }
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/TipoRecordatorio"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tipo"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Desde"
+            }
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Hasta"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecordatorioRespuesta"
+                  },
+                  "title": "Response Listar Recordatorios  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recordatorios/{recordatorio_id}": {
+      "get": {
+        "tags": [
+          "Recordatorios"
+        ],
+        "summary": "Obtener un recordatorio por ID",
+        "operationId": "obtener_recordatorios__recordatorio_id__get",
+        "parameters": [
+          {
+            "name": "recordatorio_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Recordatorio Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordatorioRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Recordatorios"
+        ],
+        "summary": "Actualizar un recordatorio",
+        "operationId": "actualizar_recordatorios__recordatorio_id__put",
+        "parameters": [
+          {
+            "name": "recordatorio_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Recordatorio Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordatorioActualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordatorioRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Recordatorios"
+        ],
+        "summary": "Eliminar un recordatorio",
+        "operationId": "eliminar_recordatorios__recordatorio_id__delete",
+        "parameters": [
+          {
+            "name": "recordatorio_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Recordatorio Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recordatorios/{recordatorio_id}/enviar": {
+      "post": {
+        "tags": [
+          "Recordatorios"
+        ],
+        "summary": "Marcar un recordatorio como enviado (simula notificaci\u00f3n)",
+        "operationId": "enviar_recordatorios__recordatorio_id__enviar_post",
+        "parameters": [
+          {
+            "name": "recordatorio_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Recordatorio Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordatorioRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/planes-nutricionales/": {
+      "post": {
+        "tags": [
+          "Planes Nutricionales"
+        ],
+        "summary": "Crear un plan nutricional",
+        "operationId": "crear_planes_nutricionales__post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanNutricionalCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanNutricionalRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Planes Nutricionales"
+        ],
+        "summary": "Listar todos los planes nutricionales",
+        "operationId": "listar_planes_nutricionales__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlanNutricionalRespuesta"
+                  },
+                  "title": "Response Listar Planes Nutricionales  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/planes-nutricionales/por-usuario/{usuario_id}": {
+      "get": {
+        "tags": [
+          "Planes Nutricionales"
+        ],
+        "summary": "Consultar planes nutricionales de un usuario",
+        "operationId": "por_usuario_planes_nutricionales_por_usuario__usuario_id__get",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Usuario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlanNutricionalRespuesta"
+                  },
+                  "title": "Response Por Usuario Planes Nutricionales Por Usuario  Usuario Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/planes-nutricionales/{plan_id}": {
+      "get": {
+        "tags": [
+          "Planes Nutricionales"
+        ],
+        "summary": "Obtener un plan nutricional por ID",
+        "operationId": "obtener_planes_nutricionales__plan_id__get",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanNutricionalRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Planes Nutricionales"
+        ],
+        "summary": "Actualizar un plan nutricional",
+        "operationId": "actualizar_planes_nutricionales__plan_id__put",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanNutricionalActualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanNutricionalRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Planes Nutricionales"
+        ],
+        "summary": "Eliminar un plan nutricional",
+        "operationId": "eliminar_planes_nutricionales__plan_id__delete",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comidas/": {
+      "post": {
+        "tags": [
+          "Comidas"
+        ],
+        "summary": "Registrar una comida",
+        "operationId": "registrar_comidas__post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComidaCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComidaRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Comidas"
+        ],
+        "summary": "Listar todas las comidas",
+        "operationId": "listar_comidas__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ComidaRespuesta"
+                  },
+                  "title": "Response Listar Comidas  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comidas/por-usuario/{usuario_id}": {
+      "get": {
+        "tags": [
+          "Comidas"
+        ],
+        "summary": "Listar comidas de un usuario en un rango de fechas opcional",
+        "operationId": "por_usuario_comidas_por_usuario__usuario_id__get",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Usuario Id"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Desde"
+            }
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Hasta"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ComidaRespuesta"
+                  },
+                  "title": "Response Por Usuario Comidas Por Usuario  Usuario Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comidas/{comida_id}": {
+      "get": {
+        "tags": [
+          "Comidas"
+        ],
+        "summary": "Obtener comida por ID",
+        "operationId": "obtener_comidas__comida_id__get",
+        "parameters": [
+          {
+            "name": "comida_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Comida Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComidaRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Comidas"
+        ],
+        "summary": "Actualizar una comida",
+        "operationId": "actualizar_comidas__comida_id__put",
+        "parameters": [
+          {
+            "name": "comida_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Comida Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComidaActualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComidaRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Comidas"
+        ],
+        "summary": "Eliminar registro de comida",
+        "operationId": "eliminar_comidas__comida_id__delete",
+        "parameters": [
+          {
+            "name": "comida_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Comida Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rutinas-bienestar/": {
+      "post": {
+        "tags": [
+          "Rutinas de Bienestar"
+        ],
+        "summary": "Registrar una rutina de bienestar",
+        "operationId": "crear_rutinas_bienestar__post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RutinaBienestarCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RutinaBienestarRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Rutinas de Bienestar"
+        ],
+        "summary": "Listar todas las rutinas",
+        "operationId": "listar_rutinas_bienestar__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RutinaBienestarRespuesta"
+                  },
+                  "title": "Response Listar Rutinas Bienestar  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rutinas-bienestar/por-usuario/{usuario_id}": {
+      "get": {
+        "tags": [
+          "Rutinas de Bienestar"
+        ],
+        "summary": "Listar rutinas de un usuario",
+        "operationId": "por_usuario_rutinas_bienestar_por_usuario__usuario_id__get",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Usuario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RutinaBienestarRespuesta"
+                  },
+                  "title": "Response Por Usuario Rutinas Bienestar Por Usuario  Usuario Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rutinas-bienestar/{rutina_id}": {
+      "get": {
+        "tags": [
+          "Rutinas de Bienestar"
+        ],
+        "summary": "Obtener una rutina por ID",
+        "operationId": "obtener_rutinas_bienestar__rutina_id__get",
+        "parameters": [
+          {
+            "name": "rutina_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rutina Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RutinaBienestarRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Rutinas de Bienestar"
+        ],
+        "summary": "Actualizar una rutina",
+        "operationId": "actualizar_rutinas_bienestar__rutina_id__put",
+        "parameters": [
+          {
+            "name": "rutina_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rutina Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RutinaBienestarActualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RutinaBienestarRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Rutinas de Bienestar"
+        ],
+        "summary": "Eliminar una rutina",
+        "operationId": "eliminar_rutinas_bienestar__rutina_id__delete",
+        "parameters": [
+          {
+            "name": "rutina_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rutina Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensores/data": {
+      "post": {
+        "tags": [
+          "Sensores IoT"
+        ],
+        "summary": "Recibir Datos Sensor",
+        "description": "Recibe lectura de sensor desde ESP32.\n\nHeaders requeridos:\n- X-API-Key: API key del dispositivo\n\nBody esperado:\n```json\n{\n    \"usuario_id\": 1,\n    \"dispositivo_id\": \"esp32_living_room\",\n    \"tipo_sensor\": \"PIR\",\n    \"valor\": 1.0,\n    \"unidad\": \"boolean\",\n    \"metadatos\": {\"ubicacion\": \"living room\"}\n}\n```",
+        "operationId": "recibir_datos_sensor_sensores_data_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SensorDataCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SensorDataRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensores/": {
+      "get": {
+        "tags": [
+          "Sensores IoT"
+        ],
+        "summary": "Listar Lecturas",
+        "description": "Lista todas las lecturas del usuario autenticado.",
+        "operationId": "listar_lecturas_sensores__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SensorDataRespuesta"
+                  },
+                  "title": "Response Listar Lecturas Sensores  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensores/{lectura_id}": {
+      "get": {
+        "tags": [
+          "Sensores IoT"
+        ],
+        "summary": "Obtener Lectura Por Id",
+        "description": "Obtiene una lectura espec\u00edfica (solo si pertenece al usuario).",
+        "operationId": "obtener_lectura_por_id_sensores__lectura_id__get",
+        "parameters": [
+          {
+            "name": "lectura_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Lectura Id"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SensorDataRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Sensores IoT"
+        ],
+        "summary": "Actualizar Lectura",
+        "description": "Actualiza una lectura (solo si pertenece al usuario).",
+        "operationId": "actualizar_lectura_sensores__lectura_id__put",
+        "parameters": [
+          {
+            "name": "lectura_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Lectura Id"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SensorDataActualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SensorDataRespuesta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sensores IoT"
+        ],
+        "summary": "Eliminar Lectura",
+        "description": "Elimina una lectura (solo si pertenece al usuario).",
+        "operationId": "eliminar_lectura_sensores__lectura_id__delete",
+        "parameters": [
+          {
+            "name": "lectura_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Lectura Id"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensores/recientes/historial": {
+      "get": {
+        "tags": [
+          "Sensores IoT"
+        ],
+        "summary": "Obtener Historial Reciente",
+        "description": "Obtiene lecturas de los \u00faltimos N minutos.",
+        "operationId": "obtener_historial_reciente_sensores_recientes_historial_get",
+        "parameters": [
+          {
+            "name": "minutos",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 60,
+              "title": "Minutos"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SensorDataRespuesta"
+                  },
+                  "title": "Response Obtener Historial Reciente Sensores Recientes Historial Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensores/por-tipo/{tipo_sensor}": {
+      "get": {
+        "tags": [
+          "Sensores IoT"
+        ],
+        "summary": "Obtener Lecturas Sensor",
+        "description": "Obtiene lecturas de un tipo de sensor en las \u00faltimas N horas.",
+        "operationId": "obtener_lecturas_sensor_sensores_por_tipo__tipo_sensor__get",
+        "parameters": [
+          {
+            "name": "tipo_sensor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/TipoSensor"
+            }
+          },
+          {
+            "name": "horas",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 24,
+              "title": "Horas"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SensorDataRespuesta"
+                  },
+                  "title": "Response Obtener Lecturas Sensor Sensores Por Tipo  Tipo Sensor  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensores/estadisticas/{tipo_sensor}": {
+      "get": {
+        "tags": [
+          "Sensores IoT"
+        ],
+        "summary": "Obtener Estadisticas Sensor",
+        "description": "Retorna promedio, m\u00edn, m\u00e1x de lecturas de un sensor.",
+        "operationId": "obtener_estadisticas_sensor_sensores_estadisticas__tipo_sensor__get",
+        "parameters": [
+          {
+            "name": "tipo_sensor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/TipoSensor"
+            }
+          },
+          {
+            "name": "horas",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 24,
+              "title": "Horas"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ComidaActualizar": {
+        "properties": {
+          "nombre": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nombre"
+          },
+          "calorias": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Calorias"
+          },
+          "proteinas": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proteinas"
+          },
+          "carbohidratos": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carbohidratos"
+          },
+          "grasas": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grasas"
+          },
+          "fecha": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha"
+          }
+        },
+        "type": "object",
+        "title": "ComidaActualizar"
+      },
+      "ComidaCrear": {
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Nombre"
+          },
+          "calorias": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Calorias",
+            "description": "Calor\u00edas totales (kcal)"
+          },
+          "proteinas": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Proteinas",
+            "description": "Prote\u00ednas en gramos",
+            "default": 0.0
+          },
+          "carbohidratos": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Carbohidratos",
+            "description": "Carbohidratos en gramos",
+            "default": 0.0
+          },
+          "grasas": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Grasas",
+            "description": "Grasas en gramos",
+            "default": 0.0
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Usuario Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nombre",
+          "calorias",
+          "fecha",
+          "usuario_id"
+        ],
+        "title": "ComidaCrear"
+      },
+      "ComidaRespuesta": {
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Nombre"
+          },
+          "calorias": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Calorias",
+            "description": "Calor\u00edas totales (kcal)"
+          },
+          "proteinas": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Proteinas",
+            "description": "Prote\u00ednas en gramos",
+            "default": 0.0
+          },
+          "carbohidratos": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Carbohidratos",
+            "description": "Carbohidratos en gramos",
+            "default": 0.0
+          },
+          "grasas": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Grasas",
+            "description": "Grasas en gramos",
+            "default": 0.0
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "title": "Usuario Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nombre",
+          "calorias",
+          "fecha",
+          "id",
+          "usuario_id"
+        ],
+        "title": "ComidaRespuesta"
+      },
+      "CursoActualizar": {
+        "properties": {
+          "nombre": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 150,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nombre"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          }
+        },
+        "type": "object",
+        "title": "CursoActualizar"
+      },
+      "CursoConTareas": {
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Nombre"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "tareas": {
+            "items": {
+              "$ref": "#/components/schemas/TareaRespuesta"
+            },
+            "type": "array",
+            "title": "Tareas",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "nombre",
+          "id"
+        ],
+        "title": "CursoConTareas",
+        "description": "Curso con la lista de sus tareas asociadas."
+      },
+      "CursoCrear": {
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Nombre"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nombre"
+        ],
+        "title": "CursoCrear"
+      },
+      "CursoRespuesta": {
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Nombre"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nombre",
+          "id"
+        ],
+        "title": "CursoRespuesta"
+      },
+      "EstadoTarea": {
+        "type": "string",
+        "enum": [
+          "pendiente",
+          "completada"
+        ],
+        "title": "EstadoTarea"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PlanNutricionalActualizar": {
+        "properties": {
+          "tipo_dieta": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tipo Dieta"
+          },
+          "objetivos": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Objetivos"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          }
+        },
+        "type": "object",
+        "title": "PlanNutricionalActualizar"
+      },
+      "PlanNutricionalCrear": {
+        "properties": {
+          "tipo_dieta": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Tipo Dieta",
+            "description": "Tipo de dieta: vegana, keto, mediterr\u00e1nea, etc."
+          },
+          "objetivos": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Objetivos"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Usuario Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tipo_dieta",
+          "usuario_id"
+        ],
+        "title": "PlanNutricionalCrear"
+      },
+      "PlanNutricionalRespuesta": {
+        "properties": {
+          "tipo_dieta": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Tipo Dieta",
+            "description": "Tipo de dieta: vegana, keto, mediterr\u00e1nea, etc."
+          },
+          "objetivos": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Objetivos"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "title": "Usuario Id"
+          },
+          "creado_en": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Creado En"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tipo_dieta",
+          "id",
+          "usuario_id",
+          "creado_en"
+        ],
+        "title": "PlanNutricionalRespuesta"
+      },
+      "PrioridadTarea": {
+        "type": "string",
+        "enum": [
+          "baja",
+          "media",
+          "alta"
+        ],
+        "title": "PrioridadTarea"
+      },
+      "RecordatorioActualizar": {
+        "properties": {
+          "tipo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TipoRecordatorio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "titulo": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Titulo"
+          },
+          "fecha_hora": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Hora"
+          },
+          "enviado": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enviado"
+          }
+        },
+        "type": "object",
+        "title": "RecordatorioActualizar"
+      },
+      "RecordatorioCrear": {
+        "properties": {
+          "tipo": {
+            "$ref": "#/components/schemas/TipoRecordatorio"
+          },
+          "titulo": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Titulo"
+          },
+          "fecha_hora": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha Hora"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Usuario Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tipo",
+          "titulo",
+          "fecha_hora",
+          "usuario_id"
+        ],
+        "title": "RecordatorioCrear"
+      },
+      "RecordatorioRespuesta": {
+        "properties": {
+          "tipo": {
+            "$ref": "#/components/schemas/TipoRecordatorio"
+          },
+          "titulo": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Titulo"
+          },
+          "fecha_hora": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha Hora"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "title": "Usuario Id"
+          },
+          "enviado": {
+            "type": "boolean",
+            "title": "Enviado"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tipo",
+          "titulo",
+          "fecha_hora",
+          "id",
+          "usuario_id",
+          "enviado"
+        ],
+        "title": "RecordatorioRespuesta"
+      },
+      "RutinaBienestarActualizar": {
+        "properties": {
+          "actividad": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actividad"
+          },
+          "duracion_minutos": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1440.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duracion Minutos"
+          },
+          "fecha": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha"
+          }
+        },
+        "type": "object",
+        "title": "RutinaBienestarActualizar"
+      },
+      "RutinaBienestarCrear": {
+        "properties": {
+          "actividad": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Actividad"
+          },
+          "duracion_minutos": {
+            "type": "integer",
+            "maximum": 1440.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Duracion Minutos",
+            "description": "Duraci\u00f3n en minutos (m\u00e1x 24h)"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Usuario Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "actividad",
+          "duracion_minutos",
+          "fecha",
+          "usuario_id"
+        ],
+        "title": "RutinaBienestarCrear"
+      },
+      "RutinaBienestarRespuesta": {
+        "properties": {
+          "actividad": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Actividad"
+          },
+          "duracion_minutos": {
+            "type": "integer",
+            "maximum": 1440.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Duracion Minutos",
+            "description": "Duraci\u00f3n en minutos (m\u00e1x 24h)"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "title": "Usuario Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "actividad",
+          "duracion_minutos",
+          "fecha",
+          "id",
+          "usuario_id"
+        ],
+        "title": "RutinaBienestarRespuesta"
+      },
+      "SensorDataActualizar": {
+        "properties": {
+          "dispositivo_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dispositivo Id"
+          },
+          "tipo_sensor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TipoSensor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "valor": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valor"
+          },
+          "unidad": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unidad"
+          },
+          "metadatos": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadatos"
+          }
+        },
+        "type": "object",
+        "title": "SensorDataActualizar"
+      },
+      "SensorDataCrear": {
+        "properties": {
+          "dispositivo_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Dispositivo Id"
+          },
+          "tipo_sensor": {
+            "$ref": "#/components/schemas/TipoSensor"
+          },
+          "valor": {
+            "type": "number",
+            "title": "Valor"
+          },
+          "unidad": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Unidad"
+          },
+          "metadatos": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadatos"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dispositivo_id",
+          "tipo_sensor",
+          "valor",
+          "unidad"
+        ],
+        "title": "SensorDataCrear"
+      },
+      "SensorDataRespuesta": {
+        "properties": {
+          "dispositivo_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Dispositivo Id"
+          },
+          "tipo_sensor": {
+            "$ref": "#/components/schemas/TipoSensor"
+          },
+          "valor": {
+            "type": "number",
+            "title": "Valor"
+          },
+          "unidad": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Unidad"
+          },
+          "metadatos": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadatos"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "title": "Usuario Id"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dispositivo_id",
+          "tipo_sensor",
+          "valor",
+          "unidad",
+          "id",
+          "usuario_id",
+          "timestamp"
+        ],
+        "title": "SensorDataRespuesta"
+      },
+      "TareaActualizar": {
+        "properties": {
+          "titulo": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Titulo"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          },
+          "fecha_limite": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Limite"
+          },
+          "estado": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EstadoTarea"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prioridad": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PrioridadTarea"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "curso_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Curso Id"
+          }
+        },
+        "type": "object",
+        "title": "TareaActualizar"
+      },
+      "TareaCrear": {
+        "properties": {
+          "titulo": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Titulo"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          },
+          "fecha_limite": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Limite"
+          },
+          "estado": {
+            "$ref": "#/components/schemas/EstadoTarea",
+            "default": "pendiente"
+          },
+          "prioridad": {
+            "$ref": "#/components/schemas/PrioridadTarea",
+            "default": "media"
+          },
+          "curso_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Curso Id",
+            "description": "ID del curso asociado, si aplica"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Usuario Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "titulo",
+          "usuario_id"
+        ],
+        "title": "TareaCrear"
+      },
+      "TareaRespuesta": {
+        "properties": {
+          "titulo": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Titulo"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion"
+          },
+          "fecha_limite": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Limite"
+          },
+          "estado": {
+            "$ref": "#/components/schemas/EstadoTarea",
+            "default": "pendiente"
+          },
+          "prioridad": {
+            "$ref": "#/components/schemas/PrioridadTarea",
+            "default": "media"
+          },
+          "curso_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Curso Id",
+            "description": "ID del curso asociado, si aplica"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "title": "Usuario Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "titulo",
+          "id",
+          "usuario_id"
+        ],
+        "title": "TareaRespuesta"
+      },
+      "TipoRecordatorio": {
+        "type": "string",
+        "enum": [
+          "estudio",
+          "bienestar"
+        ],
+        "title": "TipoRecordatorio"
+      },
+      "TipoSensor": {
+        "type": "string",
+        "enum": [
+          "PIR",
+          "ULTRASONICO",
+          "FRECUENCIA_CARDIACA",
+          "OXIGENACION",
+          "PESO"
+        ],
+        "title": "TipoSensor"
+      },
+      "UsuarioActualizar": {
+        "properties": {
+          "nombre": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 150,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nombre"
+          },
+          "correo": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correo"
+          },
+          "preferencias": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preferencias"
+          }
+        },
+        "type": "object",
+        "title": "UsuarioActualizar"
+      },
+      "UsuarioCrear": {
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Nombre",
+            "description": "Nombre completo del usuario"
+          },
+          "correo": {
+            "type": "string",
+            "format": "email",
+            "title": "Correo",
+            "description": "Correo electr\u00f3nico \u00fanico"
+          },
+          "preferencias": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preferencias",
+            "description": "Diccionario libre de preferencias: tema, idioma, notificaciones, etc."
+          }
+        },
+        "type": "object",
+        "required": [
+          "nombre",
+          "correo"
+        ],
+        "title": "UsuarioCrear"
+      },
+      "UsuarioRespuesta": {
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Nombre",
+            "description": "Nombre completo del usuario"
+          },
+          "correo": {
+            "type": "string",
+            "format": "email",
+            "title": "Correo",
+            "description": "Correo electr\u00f3nico \u00fanico"
+          },
+          "preferencias": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preferencias",
+            "description": "Diccionario libre de preferencias: tema, idioma, notificaciones, etc."
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "creado_en": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Creado En"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nombre",
+          "correo",
+          "id",
+          "creado_en"
+        ],
+        "title": "UsuarioRespuesta"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

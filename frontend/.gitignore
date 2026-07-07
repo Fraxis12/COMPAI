@@ -12,3 +12,4 @@ ios/
 *.keystore
 *.p12
 *.mobileprovision
+*.apk
