@@ -1,0 +1,57 @@
+{
+  "family": "compai-api",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "2048",
+  "memory": "4096",
+  "executionRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/compaiApiTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "compai-api",
+      "image": "AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/compai-api:latest",
+      "essential": true,
+      "portMappings": [{ "containerPort": 8000, "protocol": "tcp" }],
+      "environment": [
+        { "name": "ENVIRONMENT", "value": "production" },
+        { "name": "DEBUG", "value": "false" },
+        { "name": "AUTO_CREATE_TABLES", "value": "false" },
+        { "name": "SEED_DEMO_DATA", "value": "false" },
+        { "name": "ALLOWED_ORIGINS", "value": "[\"https://app.tudominio.com\"]" },
+        { "name": "GROQ_MODEL", "value": "llama-3.3-70b-versatile" },
+        { "name": "NUTRITION_PROVIDER", "value": "USDA" },
+        { "name": "TRANSLATION_PROVIDER", "value": "ARGOS_TRANSLATE" },
+        { "name": "SMTP_HOST", "value": "email-smtp.AWS_REGION.amazonaws.com" },
+        { "name": "SMTP_PORT", "value": "587" },
+        { "name": "SMTP_TLS", "value": "true" },
+        { "name": "SMTP_FROM", "value": "CompAI <no-reply@tudominio.com>" }
+        ,{ "name": "ADMIN_EMAIL", "value": "admin@tudominio.com" }
+      ],
+      "secrets": [
+        { "name": "DATABASE_URL", "valueFrom": "arn:aws:secretsmanager:AWS_REGION:AWS_ACCOUNT_ID:secret:compai/production:DATABASE_URL::" },
+        { "name": "SECRET_KEY", "valueFrom": "arn:aws:secretsmanager:AWS_REGION:AWS_ACCOUNT_ID:secret:compai/production:SECRET_KEY::" },
+        { "name": "GROQ_API_KEY", "valueFrom": "arn:aws:secretsmanager:AWS_REGION:AWS_ACCOUNT_ID:secret:compai/production:GROQ_API_KEY::" },
+        { "name": "USDA_API_KEY", "valueFrom": "arn:aws:secretsmanager:AWS_REGION:AWS_ACCOUNT_ID:secret:compai/production:USDA_API_KEY::" },
+        { "name": "IOT_API_KEYS", "valueFrom": "arn:aws:secretsmanager:AWS_REGION:AWS_ACCOUNT_ID:secret:compai/production:IOT_API_KEYS::" },
+        { "name": "SMTP_USERNAME", "valueFrom": "arn:aws:secretsmanager:AWS_REGION:AWS_ACCOUNT_ID:secret:compai/production:SMTP_USERNAME::" },
+        { "name": "SMTP_PASSWORD", "valueFrom": "arn:aws:secretsmanager:AWS_REGION:AWS_ACCOUNT_ID:secret:compai/production:SMTP_PASSWORD::" }
+        ,{ "name": "ADMIN_PASSWORD_HASH", "valueFrom": "arn:aws:secretsmanager:AWS_REGION:AWS_ACCOUNT_ID:secret:compai/production:ADMIN_PASSWORD_HASH::" }
+      ],
+      "healthCheck": {
+        "command": ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)\" || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 30
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/compai-api",
+          "awslogs-region": "AWS_REGION",
+          "awslogs-stream-prefix": "api"
+        }
+      }
+    }
+  ]
+}

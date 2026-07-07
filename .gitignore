@@ -1,0 +1,42 @@
+# Secretos y configuracion local - NUNCA subir
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Bases de datos locales
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Node / Expo
+node_modules/
+.expo/
+dist/
+web-build/
+*.tsbuildinfo
+
+# PlatformIO
+.pio/
+.pio-venv/
+
+# Uploads locales (documentos academicos subidos en dev)
+backend/uploads/
+
+# Docker / build artifacts
+*.zip
+
+# OS / editor
+.DS_Store
+*.log
+
+# Credenciales/temporales sueltos que no deben versionarse
+scratchpad/

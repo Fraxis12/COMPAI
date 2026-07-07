@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "CompAI",
+    "slug": "asistente-integral-mobile",
+    "version": "1.0.0",
+    "scheme": "compai",
+    "icon": "./assets/assistant/assistant-avatar-mobile.png",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#F7FAFC"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.compai.app",
+      "buildNumber": "1"
+    },
+    "android": {
+      "package": "com.compai.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/assistant/assistant-avatar-mobile.png",
+        "backgroundColor": "#171329"
+      },
+      "permissions": [
+        "android.permission.SCHEDULE_EXACT_ALARM",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "plugins": [
+      "expo-font",
+      "@react-native-community/datetimepicker",
+      [
+        "expo-notifications",
+        {
+          "color": "#A855F7",
+          "defaultChannel": "compai-care"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "CompAI necesita acceso a la cámara para analizar fotos de tus comidas.",
+          "photosPermission": "CompAI necesita acceso a tu galería para analizar fotos de tus comidas."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "998831e3-34d9-4ece-bf70-85afd8de3905"
+      }
+    },
+    "owner": "franchis777"
+  }
+}

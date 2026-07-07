@@ -1,0 +1,57 @@
+{
+  "family": "compai-api",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::907079643000:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::907079643000:role/compaiApiTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "compai-api",
+      "image": "907079643000.dkr.ecr.us-east-2.amazonaws.com/compai-api:latest",
+      "essential": true,
+      "portMappings": [{ "containerPort": 8000, "protocol": "tcp" }],
+      "environment": [
+        { "name": "ENVIRONMENT", "value": "production" },
+        { "name": "DEBUG", "value": "false" },
+        { "name": "AUTO_CREATE_TABLES", "value": "false" },
+        { "name": "SEED_DEMO_DATA", "value": "false" },
+        { "name": "ALLOWED_ORIGINS", "value": "[\"https://compai-app.expo.dev\"]" },
+        { "name": "GROQ_MODEL", "value": "llama-3.3-70b-versatile" },
+        { "name": "NUTRITION_PROVIDER", "value": "USDA" },
+        { "name": "TRANSLATION_PROVIDER", "value": "ARGOS_TRANSLATE" },
+        { "name": "ADMIN_EMAIL", "value": "admin@compai.pe" },
+        { "name": "SMTP_HOST", "value": "email-smtp.us-east-2.amazonaws.com" },
+        { "name": "SMTP_PORT", "value": "587" },
+        { "name": "SMTP_TLS", "value": "true" },
+        { "name": "SMTP_FROM", "value": "CompAI <francis.huerta.roque@gmail.com>" }
+      ],
+      "secrets": [
+        { "name": "DATABASE_URL", "valueFrom": "arn:aws:secretsmanager:us-east-2:907079643000:secret:compai/production:DATABASE_URL::" },
+        { "name": "SECRET_KEY", "valueFrom": "arn:aws:secretsmanager:us-east-2:907079643000:secret:compai/production:SECRET_KEY::" },
+        { "name": "GROQ_API_KEY", "valueFrom": "arn:aws:secretsmanager:us-east-2:907079643000:secret:compai/production:GROQ_API_KEY::" },
+        { "name": "USDA_API_KEY", "valueFrom": "arn:aws:secretsmanager:us-east-2:907079643000:secret:compai/production:USDA_API_KEY::" },
+        { "name": "IOT_API_KEYS", "valueFrom": "arn:aws:secretsmanager:us-east-2:907079643000:secret:compai/production:IOT_API_KEYS::" },
+        { "name": "ADMIN_PASSWORD_HASH", "valueFrom": "arn:aws:secretsmanager:us-east-2:907079643000:secret:compai/production:ADMIN_PASSWORD_HASH::" },
+        { "name": "SMTP_USERNAME", "valueFrom": "arn:aws:secretsmanager:us-east-2:907079643000:secret:compai/production:SMTP_USERNAME::" },
+        { "name": "SMTP_PASSWORD", "valueFrom": "arn:aws:secretsmanager:us-east-2:907079643000:secret:compai/production:SMTP_PASSWORD::" }
+      ],
+      "healthCheck": {
+        "command": ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)\" || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/compai-api",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "api"
+        }
+      }
+    }
+  ]
+}
