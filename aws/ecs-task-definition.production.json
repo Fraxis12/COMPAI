@@ -17,7 +17,7 @@
         { "name": "DEBUG", "value": "false" },
         { "name": "AUTO_CREATE_TABLES", "value": "false" },
         { "name": "SEED_DEMO_DATA", "value": "false" },
-        { "name": "ALLOWED_ORIGINS", "value": "[\"https://compai-app.expo.dev\"]" },
+        { "name": "ALLOWED_ORIGINS", "value": "[\"https://main.d2vm6xeex7h5tb.amplifyapp.com\", \"https://compai-app.expo.dev\"]" },
         { "name": "GROQ_MODEL", "value": "llama-3.3-70b-versatile" },
         { "name": "NUTRITION_PROVIDER", "value": "USDA" },
         { "name": "TRANSLATION_PROVIDER", "value": "ARGOS_TRANSLATE" },

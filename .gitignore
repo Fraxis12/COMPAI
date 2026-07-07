@@ -40,3 +40,4 @@ backend/uploads/
 
 # Credenciales/temporales sueltos que no deben versionarse
 scratchpad/
+web/downloads/*.apk
