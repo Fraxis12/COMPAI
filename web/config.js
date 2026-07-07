@@ -1,3 +1,3 @@
 window.COMPAI_CONFIG = Object.freeze({
-  API_BASE_URL: "http://compai-api-alb-638313997.us-east-2.elb.amazonaws.com"
+  API_BASE_URL: "https://dssv1we7vc.execute-api.us-east-2.amazonaws.com"
 });
