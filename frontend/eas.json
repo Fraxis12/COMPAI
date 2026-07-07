@@ -14,7 +14,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "http://compai-api-alb-638313997.us-east-2.elb.amazonaws.com"
+        "EXPO_PUBLIC_API_BASE_URL": "https://dssv1we7vc.execute-api.us-east-2.amazonaws.com",
+        "EXPO_PUBLIC_SENSOR_API_KEY": "esp32_compa_sk_001"
       }
     },
     "production": {
@@ -23,7 +24,8 @@
         "buildType": "app-bundle"
       },
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "http://compai-api-alb-638313997.us-east-2.elb.amazonaws.com"
+        "EXPO_PUBLIC_API_BASE_URL": "https://dssv1we7vc.execute-api.us-east-2.amazonaws.com",
+        "EXPO_PUBLIC_SENSOR_API_KEY": "esp32_compa_sk_001"
       }
     }
   }
