@@ -1,3 +1,11 @@
+<p align="center">
+  <img src="frontend/assets/assistant/assistant-avatar-mobile.png" width="120" alt="CompAI">
+</p>
+
+<p align="center">
+  <img src="docs/color-bar.svg" width="100%" height="6" alt="">
+</p>
+
 # CompAI
 
 Un asistente que junta en un solo lugar lo académico, la nutrición/bienestar y el monitoreo del ambiente de un estudiante, apoyado en un equipo IoT físico y en Inteligencia Artificial — no una maqueta, ya corre en producción sobre AWS.
@@ -18,6 +26,10 @@ Desde la app, el usuario organiza cursos y tareas, registra sus comidas por text
 4. El **backend** (`backend/`, FastAPI + PostgreSQL) centraliza todo: autenticación, análisis nutricional con IA, ingesta de sensores, el chat CompAI (Groq) y el panel de administración.
 5. El **panel web** (`web/`) sirve la landing con descarga del APK y un dashboard con métricas en vivo del backend.
 6. Todo corre en **AWS** (`aws/`): ECS Fargate + RDS PostgreSQL + Secrets Manager + API Gateway (HTTPS) + Amplify Hosting.
+
+## Arquitectura
+
+![Arquitectura de solución del software — CompAI](docs/architecture-diagram.png)
 
 ## Estructura del monorepo
 
@@ -68,4 +80,29 @@ Para el firmware del sensor y el despliegue en AWS, ver [`sensor/README.md`](sen
 
 ## Producción
 
-CompAI corre en AWS: backend en ECS Fargate detrás de un API Gateway (HTTPS) que hace de proxy sobre un Load Balancer, base de datos en RDS en subred privada, secretos en Secrets Manager, y el panel web servido vía Amplify Hosting (con S3 de respaldo). Ver [`aws/README.md`](aws/README.md) para el detalle completo.
+CompAI corre en AWS: backend en ECS Fargate detrás de un API Gateway (HTTPS) que hace de proxy sobre un Load Balancer, base de datos en RDS en subred privada, secretos en Secrets Manager, y el panel web servido vía Amplify Hosting (con S3 de respaldo).
+
+## Cómo desplegarlo en AWS
+
+1. **Crear el repositorio de imágenes y subir el backend:**
+   ```bash
+   aws ecr create-repository --repository-name compai-api
+   aws ecr get-login-password --region AWS_REGION | docker login --username AWS --password-stdin AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com
+   docker build -t compai-api ./backend
+   docker tag compai-api:latest AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/compai-api:latest
+   docker push AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/compai-api:latest
+   ```
+2. **Preparar los secretos** en Secrets Manager (`DATABASE_URL`, `SECRET_KEY`, `GROQ_API_KEY`, `USDA_API_KEY`, `IOT_API_KEYS`, credenciales de SES, `ADMIN_PASSWORD_HASH`).
+3. **Levantar la base de datos** en RDS PostgreSQL, en subred privada, con el security group aceptando conexiones solo desde ECS.
+4. **Registrar la definición de tarea** (`aws/ecs-task-definition.production.json`) y crear el servicio en **ECS Fargate** detrás de un **Application Load Balancer** (health check en `/health`).
+5. **Exponer el backend por HTTPS**: si tienes dominio propio y CloudFront/Route 53 disponibles, úsalos con ACM. Si la cuenta de AWS es nueva y esos servicios están bloqueados (pasa con cuentas recién creadas), usa **API Gateway** (HTTP API, integración `HTTP_PROXY` hacia el ALB) como alternativa gratuita — es lo que usamos en este proyecto.
+6. **Publicar el panel web** con **AWS Amplify Hosting** (o S3 como sitio estático de respaldo), apuntando `API_BASE_URL` en `web/config.js` a la URL HTTPS del paso anterior.
+7. **Generar el APK/AAB** de la app móvil con EAS, apuntando `EXPO_PUBLIC_API_BASE_URL` (en `frontend/eas.json`) a esa misma URL:
+   ```bash
+   cd frontend
+   npx eas-cli build --platform android --profile preview   # APK de pruebas
+   npx eas-cli build --platform android --profile production # AAB para Google Play
+   ```
+8. **Verificar**: `/health` responde `status: ok`, login/registro/recuperación funcionan, dos cuentas no comparten datos entre sí, el chat responde sin exponer llaves en el APK, y los sensores publican con `X-API-Key` mientras la app consulta con JWT.
+
+Ver [`aws/README.md`](aws/README.md) para el detalle completo (incluye qué valores reemplazar y la generación de secretos).
